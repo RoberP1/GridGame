@@ -8,17 +8,39 @@ public class TestGrid : MonoBehaviour
     public int x, y;
     public float cellsize;
     public Vector3 origin;
-    public int a, b;
         
-    void Start()
+    void Awake()
     {
         grid = new Grid<int>(x, y, cellsize, origin);
-        Debug.Log(grid.GetValue(a, b));
+        GridMovement.OnStart += (pos, id) => { grid.SetValue(pos, id); Debug.Log(grid.GetValue(pos)); };
+        GridMovement.OnMove += checkDirection;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
+
+    bool checkDirection(Vector3 WorldPos,Vector2 Direction, int CanMoveId)
+    {
+        bool canMove = false;
+        int neighbourId = grid.GetValue(WorldPos + (Vector3)Direction);
+        if (neighbourId == 0)
+        {
+            canMove = true;
+        }
+        else if (CanMoveId != 0 && neighbourId == CanMoveId)
+        {
+            //empujar caja
+        }
+        else
+        {
+            canMove = false;
+        }
+        Debug.Log("neighbourId = " + neighbourId);
+        Debug.Log("canMove = " + canMove);
+
+        return canMove;
+    }
+
 }
