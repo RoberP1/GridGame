@@ -66,5 +66,17 @@ public class Grid<GridObject> {
         GetXY(worldPos, out x, out y);
         return GetValue(x, y);
     }
-
+    public void InitializeGrid(GridObject value)
+    {
+        for (int x = 0; x < gridArray.GetLength(0); x++)
+        {
+            SetValue(x, 0, value);
+            SetValue(x, height-1, value);
+        }
+        for (int y = 1; y < gridArray.GetLength(1)-1; y++)
+        {
+            SetValue(0, y, value);
+            SetValue(width-1, y, value);
+        }
+    }
 }

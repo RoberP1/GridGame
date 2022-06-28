@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 774741475}
   - component: {fileID: 774741474}
   - component: {fileID: 774741476}
+  - component: {fileID: 774741477}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -302,6 +303,83 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 1
+  canMoveId: 0
+--- !u!114 &774741477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 774741473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ca2efe5168e3b47b8ea217c22c73e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControls:
+    m_Name: Player Controls
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 31333624-a1e0-45e7-aec3-049d87ef6d9a
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: WASD
+      m_Id: 7b48deb5-e48a-4072-b5d4-af20605cc09c
+      m_Path: 2DVector
+      m_Interactions: Press(pressPoint=0.5)
+      m_Processors: 
+      m_Groups: 
+      m_Action: Player Controls
+      m_Flags: 4
+    - m_Name: up
+      m_Id: e336357d-00da-4cfc-8027-fb324363446e
+      m_Path: <Keyboard>/w
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Player Controls
+      m_Flags: 8
+    - m_Name: down
+      m_Id: a0de3d08-329b-4c88-9417-a03abf6539ee
+      m_Path: <Keyboard>/s
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Player Controls
+      m_Flags: 8
+    - m_Name: left
+      m_Id: 476e857e-cc7f-47da-b02e-828924ff90ac
+      m_Path: <Keyboard>/a
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Player Controls
+      m_Flags: 8
+    - m_Name: right
+      m_Id: eafc6175-035d-40a0-b377-df8a56127e9b
+      m_Path: <Keyboard>/d
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Player Controls
+      m_Flags: 8
+    m_Flags: 0
+  OnMove:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 774741476}
+        m_TargetAssemblyTypeName: GridMovement, Assembly-CSharp
+        m_MethodName: Move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2024514055
 GameObject:
   m_ObjectHideFlags: 0
@@ -345,7 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 754d804dde4c49d47949bf21f7d84655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 5
-  y: 5
+  x: 9
+  y: 9
   cellsize: 1
-  origin: {x: -2.5, y: -2.5, z: 0}
+  origin: {x: -4.5, y: -4.5, z: 0}

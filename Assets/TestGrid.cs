@@ -12,7 +12,8 @@ public class TestGrid : MonoBehaviour
     void Awake()
     {
         grid = new Grid<int>(x, y, cellsize, origin);
-        GridMovement.OnStart += (pos, id) => { grid.SetValue(pos, id); Debug.Log(grid.GetValue(pos)); };
+        grid.InitializeGrid(2);
+        GridMovement.OnStart += (pos, id) => grid.SetValue(pos, id);
         GridMovement.OnMove += checkDirection;
     }
 
@@ -21,7 +22,7 @@ public class TestGrid : MonoBehaviour
         
     }
 
-    bool checkDirection(Vector3 WorldPos,Vector2 Direction, int CanMoveId)
+    bool checkDirection(Vector3 WorldPos,Vector2 Direction, int CanMoveId,int id)
     {
         bool canMove = false;
         int neighbourId = grid.GetValue(WorldPos + (Vector3)Direction);
@@ -37,9 +38,13 @@ public class TestGrid : MonoBehaviour
         {
             canMove = false;
         }
-        Debug.Log("neighbourId = " + neighbourId);
-        Debug.Log("canMove = " + canMove);
-
+        //Debug.Log("neighbourId = " + neighbourId);
+        //Debug.Log("canMove = " + canMove);
+        if (canMove)
+        {
+            grid.SetValue(WorldPos, 0);
+            grid.SetValue(WorldPos + (Vector3)Direction, id);
+        }
         return canMove;
     }
 

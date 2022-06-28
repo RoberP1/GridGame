@@ -7,7 +7,7 @@ public class GridMovement : MonoBehaviour
 {
     public static event Action<Vector3,int> OnStart;
    // public static event Action<Vector3, Vector2,int> OnMove;
-    public delegate bool CanMove(Vector3 WorldPos, Vector2 Direction, int canMoveId);
+    public delegate bool CanMove(Vector3 WorldPos, Vector2 Direction, int canMoveId,int id);
     public static CanMove OnMove;
     public int id;
     public int canMoveId;
@@ -23,7 +23,9 @@ public class GridMovement : MonoBehaviour
     }
     public void Move(Vector2 direction)
     {
-        if(OnMove.Invoke(transform.position,direction, canMoveId))
+        if (direction.sqrMagnitude == 0) return;
+        //Debug.Log(direction);
+        if(OnMove.Invoke(transform.position,direction, canMoveId,id))
         {
             transform.position += (Vector3)direction;
         }
