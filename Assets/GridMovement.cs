@@ -25,7 +25,9 @@ public class GridMovement : MonoBehaviour
     {
         if (direction.sqrMagnitude == 0) return;
         //Debug.Log(direction);
-        if(OnMove.Invoke(transform.position,direction, canMoveId,id))
+        bool canMove = OnMove.Invoke(transform.position, direction, canMoveId, id);
+        print(canMove);
+        if (canMove)
         {
             transform.position += (Vector3)direction;
         }

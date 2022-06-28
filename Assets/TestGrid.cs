@@ -12,7 +12,7 @@ public class TestGrid : MonoBehaviour
     void Awake()
     {
         grid = new Grid<int>(x, y, cellsize, origin);
-        grid.InitializeGrid(2);
+        //grid.InitializeGrid(2);
         GridMovement.OnStart += (pos, id) => grid.SetValue(pos, id);
         GridMovement.OnMove += checkDirection;
     }

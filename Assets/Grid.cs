@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid<GridObject> {
+public class Grid<TGridObject> {
 
     private int width, height;
     private float cellsize;
     private Vector3 originPos;
-    private GridObject[,] gridArray;
+    private TGridObject[,] gridArray;
 
     public Grid(int width, int height, float cellsize, Vector3 originPos)
     {
@@ -16,7 +16,7 @@ public class Grid<GridObject> {
         this.cellsize = cellsize;
         this.originPos = originPos;
 
-        gridArray = new GridObject[width, height];
+        gridArray = new TGridObject[width, height];
 
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
@@ -40,43 +40,43 @@ public class Grid<GridObject> {
         y = Mathf.FloorToInt((worldPos - originPos).y / cellsize);
     }
     
-    public void SetValue(int x, int y, GridObject value)
+    public void SetValue(int x, int y, TGridObject value)
     {
         if(x>=0&& y>=0&& x < width && y < height)
         {
             gridArray[x, y] = value;
         }
     }
-    public void SetValue(Vector3 worldPos, GridObject value)
+    public void SetValue(Vector3 worldPos, TGridObject value)
     {
         int x, y;
         GetXY(worldPos, out x, out y);
         SetValue(x, y, value);
     }
-    public GridObject GetValue(int x, int y)
+    public TGridObject GetValue(int x, int y)
     {
         if (x >= 0 && y >= 0 && x < width && y < height)
         {
             return gridArray[x, y];
-        }else return default(GridObject);
+        }else return default(TGridObject);
     }
-    public GridObject GetValue(Vector3 worldPos)
+    public TGridObject GetValue(Vector3 worldPos)
     {
         int x, y;
         GetXY(worldPos, out x, out y);
         return GetValue(x, y);
     }
-    public void InitializeGrid(GridObject value)
+    public void InitializeGrid(TGridObject d, TGridObject value)
     {
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
-            SetValue(x, 0, value);
-            SetValue(x, height-1, value);
-        }
-        for (int y = 1; y < gridArray.GetLength(1)-1; y++)
-        {
-            SetValue(0, y, value);
-            SetValue(width-1, y, value);
+            for (int y = 0; y < gridArray.GetLength(1); y++)
+            {
+                if (x == 0 || y == 0 || x == width-1 || y == height-1)
+                {
+                    SetValue(x, y, value);
+                } else SetValue(x, y, d);
+            }
         }
     }
 }
