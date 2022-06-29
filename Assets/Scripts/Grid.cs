@@ -66,7 +66,7 @@ public class Grid<TGridObject> {
         GetXY(worldPos, out x, out y);
         return GetValue(x, y);
     }
-    public void InitializeGrid(TGridObject d, TGridObject value)
+    public void InitializeGridBorders(TGridObject d, TGridObject value)
     {
         for (int x = 0; x < gridArray.GetLength(0); x++)
         {
