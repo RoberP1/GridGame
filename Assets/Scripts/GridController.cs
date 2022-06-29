@@ -23,10 +23,18 @@ public class GridController : MonoBehaviour
         
         grid.InitializeGridBorders(0,2);
 
-        grid.SetValue(4, 3, 3);
-        grid.SetValue(2, 7, 4);
+        
 
         if (!gridstarted) InitializeGrids();
+        //caja
+        grid.SetValue(4, 3, 3);
+        GameObject box = Instantiate(prefabs[3], grid.GetWorldPos(4, 3) + (Vector3)Vector2.one * cellsize / 2, Quaternion.identity);
+        gameObjectsGrid.SetValue(4, 3, box);
+
+        //target
+        grid.SetValue(2, 7, 4);
+        GameObject target = Instantiate(prefabs[4], grid.GetWorldPos(2, 7) + (Vector3)Vector2.one * cellsize / 2, Quaternion.identity);
+        gameObjectsGrid.SetValue(2, 7, target);
 
     }
     private void OnEnable()
@@ -55,6 +63,7 @@ public class GridController : MonoBehaviour
         {
             //empujar caja
             GameObject box = gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction);
+            Debug.Log(box.name);
             box.GetComponent<GridMovement>().Move(Direction);
             if (grid.GetValue(WorldPos + (Vector3)Direction) == CanMoveId)
             {
@@ -81,7 +90,7 @@ public class GridController : MonoBehaviour
 
             if (neighbourId == 4)
             {
-                grid.SetValue(WorldPos + (Vector3)Direction, 2);
+                grid.SetValue(WorldPos + (Vector3)Direction, 5);
                 grid.SetValue(WorldPos, 0);
 
                 GameObject target = gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction);
@@ -94,12 +103,13 @@ public class GridController : MonoBehaviour
                 grid.SetValue(WorldPos + (Vector3)Direction, id);
                 grid.SetValue(WorldPos, 0);
 
-                Destroy(gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction));
+                //Destroy(gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction));
                 gameObjectsGrid.SetValue(WorldPos + (Vector3)Direction, gameObjectsGrid.GetValue(WorldPos));
+                gameObjectsGrid.SetValue(WorldPos , null);
             }
 
-            GameObject tile = Instantiate(prefabs[grid.GetValue(WorldPos)], WorldPos, Quaternion.identity);
-            gameObjectsGrid.SetValue(WorldPos, tile);
+            //GameObject tile = Instantiate(prefabs[grid.GetValue(WorldPos)], WorldPos, Quaternion.identity);
+            gameObjectsGrid.SetValue(WorldPos, null);
 
         }
         /*
@@ -126,7 +136,7 @@ public class GridController : MonoBehaviour
         {
             for (int y = 0; y < this.y; y++)
             {
-                GameObject tile;
+                /*GameObject tile;
                 int id = grid.GetValue(x, y);
                 switch (id)
                 {
@@ -138,6 +148,9 @@ public class GridController : MonoBehaviour
                         break;
                 }
                 gameObjectsGrid.SetValue(x, y, tile);
+                */
+                int id = grid.GetValue(x, y);
+                Instantiate(prefabs[id], grid.GetWorldPos(x, y) + (Vector3)Vector2.one * cellsize / 2, Quaternion.identity);
             }
         }
         gridstarted = true;
