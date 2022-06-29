@@ -14,7 +14,7 @@ public class GridMovement : MonoBehaviour
     private GridController gridController;
     void Start()
     {
-        OnStart?.Invoke(transform.position,id);
+        //OnStart?.Invoke(transform.position,id);
         gridController = FindObjectOfType<GridController>();
     }
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GridController : MonoBehaviour
 {
+    //ids: 0 = void,  1 = player,  2 = block,  3 = box,  4 = target, 5 = target complate
+
     public Grid<int> grid;
     public Grid<GameObject> gameObjectsGrid;
     public int x, y;
@@ -22,13 +24,14 @@ public class GridController : MonoBehaviour
         grid.InitializeGridBorders(0,2);
 
         grid.SetValue(4, 3, 3);
+        grid.SetValue(2, 7, 4);
 
-        
+        if (!gridstarted) InitializeGrids();
 
     }
     private void OnEnable()
     {
-        GridMovement.OnStart += (pos, id) => { grid.SetValue(pos, id); if(!gridstarted) InitializeGrids(); };
+        GridMovement.OnStart += (pos, id) => { grid.SetValue(pos, id); };
         GridMovement.OnMove += checkDirection;
     }
     private void OnDisable()
@@ -44,8 +47,8 @@ public class GridController : MonoBehaviour
     {
         bool canMove = false;
         int neighbourId = grid.GetValue(WorldPos + (Vector3)Direction);
-        if (neighbourId == 0)
-        {
+        if (neighbourId == 0 || neighbourId == 4)
+        {//si es void mover
             canMove = true;
         }
         else if (CanMoveId != 0 && neighbourId == CanMoveId)
@@ -58,7 +61,49 @@ public class GridController : MonoBehaviour
                 canMove = false;
             }else canMove = true;
         }
-        if (canMove)
+        if (canMove && CanMoveId == 0)
+        {
+
+
+            //si neighbourId es 4
+            //        setear valor grid a 5 en objetivo
+            //        setear valor grid a 0 en posicion
+            //        llamar a funcion del target completado
+            //        setear targetComplate como gameObjectsGrid del objetivo
+            //else
+            //        setear valor grid a id en objetivo
+            //        setear valor grid a 0 en posicion
+            //        destruya el gameObjectsGrid del objetivo
+            //        setear caja como gameObjectsGrid del objetivo
+
+
+            //setear void como gameObjectsGrid de la posicion
+
+            if (neighbourId == 4)
+            {
+                grid.SetValue(WorldPos + (Vector3)Direction, 2);
+                grid.SetValue(WorldPos, 0);
+
+                GameObject target = gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction);
+                //target.GetComponent<Target>().complate();
+
+                GameObject targetComplate = Instantiate(prefabs[grid.GetValue(WorldPos + (Vector3)Direction)], WorldPos+ (Vector3)Direction, Quaternion.identity);
+            }
+            else
+            {
+                grid.SetValue(WorldPos + (Vector3)Direction, id);
+                grid.SetValue(WorldPos, 0);
+
+                Destroy(gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction));
+                gameObjectsGrid.SetValue(WorldPos + (Vector3)Direction, gameObjectsGrid.GetValue(WorldPos));
+            }
+
+            GameObject tile = Instantiate(prefabs[grid.GetValue(WorldPos)], WorldPos, Quaternion.identity);
+            gameObjectsGrid.SetValue(WorldPos, tile);
+
+        }
+        /*
+        if (canMove)//actualizar grids
         {
             grid.SetValue(WorldPos, 0);
             grid.SetValue(WorldPos + (Vector3)Direction, id);
@@ -67,11 +112,12 @@ public class GridController : MonoBehaviour
             Destroy(gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction));
             gameObjectsGrid.SetValue(WorldPos + (Vector3)Direction, gameObjectsGrid.GetValue(WorldPos));
 
-            GameObject tile = Instantiate(prefabs[0],WorldPos, Quaternion.identity);
+            GameObject tile = Instantiate(prefabs[grid.GetValue(WorldPos)],WorldPos, Quaternion.identity);
             gameObjectsGrid.SetValue(WorldPos, tile);
         }
         //Debug.Log("neighbourId = " + neighbourId.id);
         //Debug.Log("canMove = " + canMove);
+        */
         return canMove;
     }
     void InitializeGrids()
