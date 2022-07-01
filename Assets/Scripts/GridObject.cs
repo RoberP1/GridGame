@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridObject
+
+[SerializeField] public class GridObject
 {
-    public int id;
-    public Sprite sprite;
-    public GridObject(int id, Sprite sprite)
+    public Vector2 direction;
+    public GameObject box;
+    public GridObject(Vector2 direction, GameObject box)
     {
-        this.id = id;
-        this.sprite = sprite;
+        this.direction = direction;
+        this.box = box;
     }
 }
