@@ -17,6 +17,7 @@ public class GridController : MonoBehaviour
 
 
     public GridScriptableObject gridScriptableObject;
+    public GridSize gridSize;
 
     public int x, y;
     public float cellsize;
@@ -35,19 +36,16 @@ public class GridController : MonoBehaviour
     [SerializeField] private List<GameObject> targets = new List<GameObject>();
     void Awake()
     {
-        if (gridScriptableObject.grid == null)
-        {
-            SetGrid();
 
-            grid = new Grid<int>(x, y, cellsize, origin);
+
+        SetGrid();
+
+        grid = new Grid<int>(x, y, cellsize, origin);
             
 
-            grid.InitializeGridBorders(0, 2);
-        }
-        else
-        {
-            grid = gridScriptableObject.grid;
-        }
+        grid.InitializeGridBorders(0, 2);
+   
+
         gameObjectsGrid = new Grid<GameObject>(x, y, cellsize, origin);
 
         //blocks
@@ -85,10 +83,10 @@ public class GridController : MonoBehaviour
 
     private void SetGrid()
     {
-        x = gridScriptableObject.x;
-        y = gridScriptableObject.y;
-        cellsize = gridScriptableObject.cellsize;
-        origin = gridScriptableObject.origin;
+        x = gridSize.x;
+        y = gridSize.y;
+        cellsize = gridSize.cellsize;
+        origin = gridSize.origin;
     }
     private void SpawnPlayer(int x, int y)
     {

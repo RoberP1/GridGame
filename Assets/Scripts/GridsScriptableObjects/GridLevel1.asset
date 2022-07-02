@@ -12,10 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f36a371417e70749bdc95aa6a91ac95, type: 3}
   m_Name: GridLevel1
   m_EditorClassIdentifier: 
-  x: 9
-  y: 9
-  cellsize: 1
-  origin: {x: -4.5, y: -4.5, z: 0}
   Player: {x: 4, y: 4}
   Boxes:
   - {x: 4, y: 3}

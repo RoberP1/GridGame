@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridScriptableObject: {fileID: 11400000, guid: eb85d7b2b4f557444a333e2f7a8e0668, type: 2}
+  gridSize: {fileID: 11400000, guid: 194b2ba90ff437b4a8b542b70bcc22f7, type: 2}
   x: 0
   y: 0
   cellsize: 10
@@ -57,3 +58,4 @@ MonoBehaviour:
   - {fileID: 4607508893163085202, guid: 7d40f1ae6cc632d498bb310e1a07e5ef, type: 3}
   currentMove: 0
   lastBox: {fileID: 0}
+  targets: []
