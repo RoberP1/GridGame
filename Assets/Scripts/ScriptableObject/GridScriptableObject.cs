@@ -9,4 +9,9 @@ public class GridScriptableObject : ScriptableObject
     public List<Vector2Int> Boxes = new List<Vector2Int>();
     public List<Vector2Int> targets = new List<Vector2Int>();
     public List<Vector2Int> Block = new List<Vector2Int>();
+
+    public GridScriptableObject()
+    {
+        Player = new Vector2Int(4, 4);
+    }
 }
