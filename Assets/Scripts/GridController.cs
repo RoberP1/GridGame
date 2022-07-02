@@ -31,14 +31,24 @@ public class GridController : MonoBehaviour
     [SerializeField] private List<GridObject> moves = new List<GridObject>();
     [SerializeField] private int currentMove;
     [SerializeField] private GameObject lastBox = null;
+
+    [SerializeField] private List<GameObject> targets = new List<GameObject>();
     void Awake()
     {
-        SetGrid();
+        if (gridScriptableObject.grid == null)
+        {
+            SetGrid();
 
-        grid = new Grid<int>(x, y, cellsize, origin);
+            grid = new Grid<int>(x, y, cellsize, origin);
+            
+
+            grid.InitializeGridBorders(0, 2);
+        }
+        else
+        {
+            grid = gridScriptableObject.grid;
+        }
         gameObjectsGrid = new Grid<GameObject>(x, y, cellsize, origin);
-
-        grid.InitializeGridBorders(0, 2);
 
         //blocks
         foreach (var Block in gridScriptableObject.Block)
@@ -49,8 +59,13 @@ public class GridController : MonoBehaviour
 
         if (!gridstarted) InitializeGrids();
 
+
+    }
+    private void Start()
+    {
+
         //player
-        SpawnPlayer(gridScriptableObject.Player.x, 4);
+        SpawnPlayer(gridScriptableObject.Player.x, gridScriptableObject.Player.y);
 
         //caja
         foreach (var Box in gridScriptableObject.Boxes)
@@ -64,7 +79,6 @@ public class GridController : MonoBehaviour
         {
             AddTarget(target.x, target.y);
         }
-
     }
 
 
@@ -114,17 +128,19 @@ public class GridController : MonoBehaviour
     private void OnEnable()
     {
         //GridMovement.OnMove += Move;
+        GameManager.OnUndo += UndoMove;
     }
     private void OnDisable()
     {
         //GridMovement.OnMove -= Move;
+        GameManager.OnUndo -= UndoMove;
     }
 
     public void Move(Vector2 Direction)
     {
         currentMove++;
         moves.Add(new GridObject(Direction,lastBox));
-        Debug.Log(moves[currentMove-1]?.direction);
+        //Debug.Log(moves[currentMove-1]?.direction);
     }
     public void UndoMove()
     {
@@ -141,6 +157,7 @@ public class GridController : MonoBehaviour
     {
         lastBox = null;
         bool canMove = false;
+        bool leavetarget = false;
         int neighbourId = grid.GetValue(WorldPos + (Vector3)Direction);
         if (neighbourId == 0 || neighbourId == 4)
         {//si es void mover
@@ -149,48 +166,76 @@ public class GridController : MonoBehaviour
         else if (CanMoveId != 0 && neighbourId == CanMoveId)
         {
             //empujar caja
-            GameObject box = gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction);
-
-            box.GetComponent<GridMovement>().Move(Direction);//mueve la caja
-            if (grid.GetValue(WorldPos + (Vector3)Direction) == CanMoveId)//si la caja sigue ahi entonces no pudo moverse 
-            {
-                canMove = false;
-            }
-            else 
-            {
-                canMove = true;
-                lastBox = box;
-            }
+            canMove = MoveBox(WorldPos, Direction, CanMoveId);
         }
-        if (canMove && CanMoveId == 0)
+        else if (CanMoveId != 0 && neighbourId == 5)
         {
+            //empujar caja
+            canMove = MoveBox(WorldPos, Direction, CanMoveId);
+        }
+        if (canMove && CanMoveId == 0) //si puedo mover la caja
+        {
+            if (grid.GetValue(WorldPos) == 5) leavetarget = true;
+            
 
-            if (neighbourId == 4)
+            if (neighbourId == 4) // si llego al target
             {
-                grid.SetValue(WorldPos + (Vector3)Direction, 5);
-                grid.SetValue(WorldPos, 0);
-
-                GameObject target = gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction);
-                Debug.Log("target");
-                target.GetComponent<Target>().complate();
-
-                GameObject targetComplate = Instantiate(prefabs[grid.GetValue(WorldPos + (Vector3)Direction)], WorldPos+ (Vector3)Direction, Quaternion.identity);
-                gameObjectsGrid.SetValue(WorldPos + (Vector3)Direction, gameObjectsGrid.GetValue(WorldPos));
-                gameObjectsGrid.SetValue(WorldPos, null);
+                GameObject OTarget = gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction);
+                Target target = OTarget.GetComponent<Target>() ;
+                target.complate();
+                targets.Add(OTarget);
+                UpdateGrid(WorldPos, Direction, 5, leavetarget);
             }
             else
             {
-                grid.SetValue(WorldPos + (Vector3)Direction, id);
-                grid.SetValue(WorldPos, 0);
-
-                gameObjectsGrid.SetValue(WorldPos + (Vector3)Direction, gameObjectsGrid.GetValue(WorldPos));
-                gameObjectsGrid.SetValue(WorldPos , null);
+                UpdateGrid(WorldPos, Direction, id, leavetarget);
             }
-            gameObjectsGrid.SetValue(WorldPos, null);
-
         }
         return canMove;
     }
+
+    private void UpdateGrid(Vector3 WorldPos, Vector2 Direction, int id, bool leavetarget)
+    {
+        grid.SetValue(WorldPos + (Vector3)Direction, id);
+        gameObjectsGrid.SetValue(WorldPos + (Vector3)Direction, gameObjectsGrid.GetValue(WorldPos));
+        
+        if (leavetarget)
+        {
+            grid.SetValue(WorldPos, 4);
+            GameObject lastTarget = targets[targets.Count - 1];
+
+            targets.Remove(lastTarget);
+            gameObjectsGrid.SetValue(WorldPos, lastTarget);
+
+            lastTarget.GetComponent<Target>().UndoComplate();
+        }
+        else
+        {
+            grid.SetValue(WorldPos, 0);
+            gameObjectsGrid.SetValue(WorldPos, null);
+        }
+        
+    }
+
+    private bool MoveBox(Vector3 WorldPos, Vector2 Direction, int CanMoveId)
+    {
+        bool canMove;
+        GameObject box = gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction);
+
+        box.GetComponent<GridMovement>().Move(Direction);//mueve la caja
+        if (grid.GetValue(WorldPos + (Vector3)Direction) == CanMoveId)//si la caja sigue ahi entonces no pudo moverse 
+        {
+            canMove = false;
+        }
+        else
+        {
+            canMove = true;
+            lastBox = box;
+        }
+
+        return canMove;
+    }
+
     void InitializeGrids()
     {
         for (int x = 0; x < this.x; x++)

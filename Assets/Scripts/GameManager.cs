@@ -11,16 +11,20 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] private GameObject oWin;
+
+    public static event Action OnUndo;
     // Start is called before the first frame update
     private void OnEnable()
     {
         Target.Oncomplate += targetComplate;
+        Target.OnUndoComplate += targetUnDo;
         GridController.OnTargetSet += addTarget;
 
     }
     private void OnDisable()
     {
         Target.Oncomplate -= targetComplate;
+        Target.OnUndoComplate -= targetUnDo;
         GridController.OnTargetSet -= addTarget;
     }
     void Start()
@@ -46,6 +50,10 @@ public class GameManager : MonoBehaviour
             finish();
         }
     }
+    void targetUnDo()
+    {
+        targetsComplate--;
+    }
 
     private void finish()
     {
@@ -55,5 +63,9 @@ public class GameManager : MonoBehaviour
     public void Reset()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void Undo()
+    {
+        OnUndo?.Invoke();
     }
 }

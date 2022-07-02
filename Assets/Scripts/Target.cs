@@ -6,6 +6,7 @@ using UnityEngine;
 public class Target : MonoBehaviour
 {
     public static event Action Oncomplate;
+    public static event Action OnUndoComplate;
     void Start()
     {
         //decirle al game manager que existo
@@ -19,5 +20,9 @@ public class Target : MonoBehaviour
     public void complate()
     {
         Oncomplate?.Invoke();
+    }
+    public void UndoComplate()
+    {
+        OnUndoComplate?.Invoke();
     }
 }

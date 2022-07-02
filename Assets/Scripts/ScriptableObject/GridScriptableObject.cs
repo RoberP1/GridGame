@@ -12,5 +12,7 @@ public class GridScriptableObject : ScriptableObject
     public Vector2Int Player;
     public Vector2Int[] Boxes,targets,Block;
 
+    public Grid<int> grid;
+
 
 }

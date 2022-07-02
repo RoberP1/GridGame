@@ -27,7 +27,8 @@ public class GridMovement : MonoBehaviour
         {
             transform.position += (Vector3)direction;
             gridController.grid.GetXY(transform.position, out int x, out int y);
-            if (id == 0 && !undo) {gridController.Move(direction); undo = false; }
+            if (id == 0 && !undo) {gridController.Move(direction); }
+            undo = false;
             //Debug.Log("("+x+","+y+") " + gameObject);
         }
 
