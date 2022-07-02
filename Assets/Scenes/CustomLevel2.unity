@@ -236,6 +236,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2313666519421152337, guid: 11ccf8083d7bd1d4f914e808f35f0828, type: 3}
+      propertyPath: OnFinish.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2313666519421152350, guid: 11ccf8083d7bd1d4f914e808f35f0828, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -280,30 +284,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4119937957163450715, guid: 11ccf8083d7bd1d4f914e808f35f0828, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4119937957163450715, guid: 11ccf8083d7bd1d4f914e808f35f0828, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4119937957163450715, guid: 11ccf8083d7bd1d4f914e808f35f0828, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4119937957163450715, guid: 11ccf8083d7bd1d4f914e808f35f0828, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4119937957163450715, guid: 11ccf8083d7bd1d4f914e808f35f0828, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 4119937957163450715, guid: 11ccf8083d7bd1d4f914e808f35f0828, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 25
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11ccf8083d7bd1d4f914e808f35f0828, type: 3}
 --- !u!1001 &7908145737724871755
@@ -313,6 +293,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7908145737869289025, guid: 9771569283e054147a661dbcd83cb992, type: 3}
+      propertyPath: gridScriptableObject
+      value: 
+      objectReference: {fileID: 11400000, guid: cb5a582f5e3a5a64d87dff8f07849183, type: 2}
     - target: {fileID: 7908145737869289027, guid: 9771569283e054147a661dbcd83cb992, type: 3}
       propertyPath: m_RootOrder
       value: 1

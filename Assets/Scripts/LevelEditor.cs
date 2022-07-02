@@ -13,6 +13,7 @@ public class LevelEditor : MonoBehaviour
     private GridController gridController;
     [SerializeField]int numberInput;
     [SerializeField] GameObject playerActive;
+    [SerializeField] Vector2Int playerActiveCords;
     
     private void OnEnable()
     {
@@ -74,6 +75,7 @@ public class LevelEditor : MonoBehaviour
                     }
 
                     playerActive = GameObject.FindGameObjectWithTag("Player");
+                    playerActiveCords = new Vector2Int(x, y);
 
                     break;
                 default:
@@ -100,6 +102,7 @@ public class LevelEditor : MonoBehaviour
         yield return new WaitForSeconds(0.01f);
         playerActive = GameObject.FindGameObjectWithTag("Player");
         gridController.gameObjectsGrid.SetValue(4, 4, playerActive);
+        playerActiveCords = new Vector2Int(4, 4);
     }
 
     public void SaveGrid()
@@ -129,6 +132,7 @@ public class LevelEditor : MonoBehaviour
                 grid.Boxes = boxes;
                 grid.targets = targets;
                 grid.Block = borders;
+                grid.Player = playerActiveCords;
             }
 
         }
