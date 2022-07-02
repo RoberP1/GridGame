@@ -12,7 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f36a371417e70749bdc95aa6a91ac95, type: 3}
   m_Name: GridLevel5
   m_EditorClassIdentifier: 
-  Player: {x: 4, y: 4}
-  Boxes: []
-  targets: []
-  Block: []
+  Player: {x: 1, y: 1}
+  Boxes:
+  - {x: 6, y: 2}
+  - {x: 6, y: 3}
+  - {x: 6, y: 4}
+  - {x: 6, y: 5}
+  targets:
+  - {x: 3, y: 2}
+  - {x: 3, y: 3}
+  - {x: 3, y: 4}
+  - {x: 3, y: 5}
+  Block:
+  - {x: 2, y: 4}
+  - {x: 3, y: 1}
+  - {x: 3, y: 6}
+  - {x: 4, y: 3}
+  - {x: 4, y: 5}
+  - {x: 6, y: 6}

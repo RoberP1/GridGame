@@ -292,7 +292,7 @@ PrefabInstance:
     - target: {fileID: 7908145737869289025, guid: 9771569283e054147a661dbcd83cb992, type: 3}
       propertyPath: gridScriptableObject
       value: 
-      objectReference: {fileID: 11400000, guid: 8ed85fe0b34b78142a0756e8a223536c, type: 2}
+      objectReference: {fileID: 11400000, guid: fc709150dc90c5b4e953775856020798, type: 2}
     - target: {fileID: 7908145737869289027, guid: 9771569283e054147a661dbcd83cb992, type: 3}
       propertyPath: m_RootOrder
       value: 1

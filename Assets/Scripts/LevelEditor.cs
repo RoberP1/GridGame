@@ -133,9 +133,9 @@ public class LevelEditor : MonoBehaviour
             else
             {
                 GridScriptableObject grid = gridController.gridScriptableObject;
-                grid.Boxes.Clear();
-                grid.targets.Clear();
-                grid.Block.Clear();
+                //grid.Boxes.Clear();
+                //grid.targets.Clear();
+                //grid.Block.Clear();
                 grid.Boxes = boxes;
                 grid.targets = targets;
                 grid.Block = borders;
