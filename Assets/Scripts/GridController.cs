@@ -48,12 +48,7 @@ public class GridController : MonoBehaviour
 
         gameObjectsGrid = new Grid<GameObject>(x, y, cellsize, origin);
 
-        //blocks
-        
-        foreach (var Block in gridScriptableObject.Block)
-        {
-            AddBorder(Block.x, Block.y);
-        }
+
 
 
         if (!gridstarted) InitializeGrids();
@@ -66,6 +61,13 @@ public class GridController : MonoBehaviour
         //player
         SpawnPlayer(gridScriptableObject.Player.x, gridScriptableObject.Player.y);
 
+        //blocks
+
+        foreach (var Block in gridScriptableObject.Block)
+        {
+            //AddBorder(Block.x, Block.y);
+            AddTile(Block.x, Block.y, 2);
+        }
         //caja
         foreach (var Box in gridScriptableObject.Boxes)
         {

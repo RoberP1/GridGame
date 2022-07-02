@@ -63,6 +63,7 @@ public class LevelEditor : MonoBehaviour
 
                     Destroy(value);
                     gridController.gameObjectsGrid.SetValue(worldPos, null);
+                    gridController.grid.SetValue(worldPos, 0);
                     break;
                 case 1:
 
@@ -101,8 +102,11 @@ public class LevelEditor : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
         playerActive = GameObject.FindGameObjectWithTag("Player");
-        gridController.gameObjectsGrid.SetValue(4, 4, playerActive);
-        playerActiveCords = new Vector2Int(4, 4);
+        int x = gridController.gridScriptableObject.Player.x;
+        int y = gridController.gridScriptableObject.Player.x;
+
+        gridController.gameObjectsGrid.SetValue(x, y, playerActive);
+        playerActiveCords = new Vector2Int(x, y);
     }
 
     public void SaveGrid()
@@ -129,6 +133,9 @@ public class LevelEditor : MonoBehaviour
             else
             {
                 GridScriptableObject grid = gridController.gridScriptableObject;
+                grid.Boxes.Clear();
+                grid.targets.Clear();
+                grid.Block.Clear();
                 grid.Boxes = boxes;
                 grid.targets = targets;
                 grid.Block = borders;
