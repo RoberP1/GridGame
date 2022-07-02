@@ -11,19 +11,15 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         playerControls.Enable();
+        playerControls.performed += _ => Move() ;
     }
     private void OnDisable()
     {
         playerControls.Disable();
+        playerControls.performed -= _ => Move();
     }
-    private void Start()
+    void Move()
     {
-        //playerControls.WasPressedThisFrame
-    }
-    void Update()
-    {
-        if(playerControls.WasPressedThisFrame())
         OnMove?.Invoke(playerControls.ReadValue<Vector2>());
     }
-
 }

@@ -49,6 +49,7 @@ public class GridController : MonoBehaviour
         gameObjectsGrid = new Grid<GameObject>(x, y, cellsize, origin);
 
         //blocks
+        
         foreach (var Block in gridScriptableObject.Block)
         {
             AddBorder(Block.x, Block.y);
@@ -68,14 +69,14 @@ public class GridController : MonoBehaviour
         //caja
         foreach (var Box in gridScriptableObject.Boxes)
         {
-            AddBox(Box.x, Box.y);
+            AddTile(Box.x, Box.y,3);
         }
 
 
         //target
         foreach (var target in gridScriptableObject.targets)
         {
-            AddTarget(target.x, target.y);
+            AddTile(target.x, target.y,4);
         }
     }
 
@@ -92,35 +93,20 @@ public class GridController : MonoBehaviour
     {
         Instantiate(prefabs[1], grid.GetWorldPos(x, y) + (Vector3)Vector2.one * cellsize / 2, Quaternion.identity);
     }
+    public void AddTile(int x, int y, int id)
+    {
+        grid.SetValue(x,y, id);
+        GameObject border = Instantiate(prefabs[id], grid.GetWorldPos(x, y) + (Vector3)Vector2.one * cellsize / 2, Quaternion.identity);
+        gameObjectsGrid.SetValue(x, y, border);
+    }
+    public void AddTile(Vector3 WorldPos,int id)
+    {
+        grid.GetXY(WorldPos,out int x, out int y);
+        AddTile(x, y, id);
+    }
     private void AddBorder(int x,int y)
     {
         grid.SetValue(x, y,2);
-    }
-    private void AddBox(int x, int y)
-    {
-        grid.SetValue(x, y, 3);
-        GameObject box = Instantiate(prefabs[3], grid.GetWorldPos(x, y) + (Vector3)Vector2.one * cellsize / 2, Quaternion.identity);
-        gameObjectsGrid.SetValue(x, y, box);
-    }   
-    private void AddBox(Vector3 WorldPos)
-    {
-        grid.SetValue(WorldPos, 3);
-        GameObject box = Instantiate(prefabs[3], WorldPos + (Vector3)Vector2.one * cellsize / 2, Quaternion.identity);
-        gameObjectsGrid.SetValue(WorldPos, box);
-    }
-    private void AddTarget(int x, int y)
-    {
-        grid.SetValue(x, y, 4);
-        GameObject target = Instantiate(prefabs[4], grid.GetWorldPos(x, y) + (Vector3)Vector2.one * cellsize / 2, Quaternion.identity);
-        gameObjectsGrid.SetValue(x, y, target);
-        OnTargetSet?.Invoke();
-    }
-    private void AddTarget(Vector3 WorldPos)
-    {
-        grid.SetValue(WorldPos, 4);
-        GameObject target = Instantiate(prefabs[4], WorldPos + (Vector3)Vector2.one * cellsize / 2, Quaternion.identity);
-        gameObjectsGrid.SetValue(WorldPos, target);
-        OnTargetSet?.Invoke();
     }
 
     private void OnEnable()
@@ -245,6 +231,39 @@ public class GridController : MonoBehaviour
             }
         }
         gridstarted = true;
+    }
+
+    public void GetAll(out List<Vector2Int> boxes,out List<Vector2Int> targets,out List<Vector2Int> borders)
+    {
+        boxes = new List<Vector2Int>();
+        targets = new List<Vector2Int>();
+        borders = new List<Vector2Int>();
+        Debug.Log(borders.Count);
+        for (int x = 1; x < this.x-1; x++)
+        {
+            for (int y = 1; y < this.y-1; y++)
+            {
+                int value = grid.GetValue(x, y);
+                switch (value)
+                {
+                    case 2:
+                        borders.Add(new Vector2Int(x,y)) ;
+                        //Debug.Log("Border");
+                        break;
+                    case 3:
+                        boxes.Add(new Vector2Int(x, y));
+                        //Debug.Log("Box");
+                        break;
+                    case 4:
+                        targets.Add(new Vector2Int(x, y));
+                        //Debug.Log("Target");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        
     }
 }
 
