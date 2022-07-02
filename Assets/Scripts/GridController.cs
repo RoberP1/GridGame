@@ -77,6 +77,7 @@ public class GridController : MonoBehaviour
         foreach (var target in gridScriptableObject.targets)
         {
             AddTile(target.x, target.y,4);
+            OnTargetSet?.Invoke();
         }
     }
 
@@ -166,9 +167,10 @@ public class GridController : MonoBehaviour
             {
                 GameObject OTarget = gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction);
                 Target target = OTarget.GetComponent<Target>() ;
+                UpdateGrid(WorldPos, Direction, 5, leavetarget);
                 target.complate();
                 targets.Add(OTarget);
-                UpdateGrid(WorldPos, Direction, 5, leavetarget);
+                
             }
             else
             {

@@ -216,7 +216,7 @@ PrefabInstance:
     - target: {fileID: 7908145737869289025, guid: 9771569283e054147a661dbcd83cb992, type: 3}
       propertyPath: gridScriptableObject
       value: 
-      objectReference: {fileID: 11400000, guid: 47c34915973848b45a29d41bbe895d15, type: 2}
+      objectReference: {fileID: 11400000, guid: 8ed85fe0b34b78142a0756e8a223536c, type: 2}
     - target: {fileID: 7908145737869289025, guid: 9771569283e054147a661dbcd83cb992, type: 3}
       propertyPath: prefabs.Array.data[1]
       value: 
