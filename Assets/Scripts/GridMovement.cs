@@ -11,7 +11,7 @@ public class GridMovement : MonoBehaviour
     public int id;
     public int canMoveId;
     private GridController gridController;
-    private bool undo;
+    [SerializeField]private bool undo;
     private Vector3 destination;
     [SerializeField] private float interpolationSpeed;
     void Start()
@@ -47,8 +47,14 @@ public class GridMovement : MonoBehaviour
         canMove = gridController.checkDirection(transform.position, direction, canMoveId, id);
         if (canMove)
         {
-            if(anim!=null)ActiveAnim(direction);
-            destination = transform.position + (Vector3)direction;
+            if(id == 3)Debug.Log(undo);
+            if(anim!=null && !undo)ActiveAnim(direction);
+            if (!undo) destination = transform.position + (Vector3)direction;
+            else 
+            {
+                destination = transform.position + (Vector3)direction;
+                transform.position = destination; 
+            }
             gridController.grid.GetXY(transform.position, out int x, out int y);
             if (id == 0 && !undo) { gridController.Move(direction); }
             undo = false;
@@ -66,7 +72,7 @@ public class GridMovement : MonoBehaviour
     private void OnEnable()
     {
         
-        if (id == 0) GridController.OnUndoMove += (direction) => undo = true; 
+        GridController.OnUndoMove += (direction) => undo = true; 
         if (id == 0) GridController.OnUndoMove += Move;
     }
     private void OnDisable()
