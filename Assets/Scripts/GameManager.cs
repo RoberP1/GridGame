@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int targetsComplate;
 
     [SerializeField] private Text lvlName;
+    [SerializeField] private Text MoveCount;
     
     public UnityEvent OnFinish;
 
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
         Target.Oncomplate += targetComplate;
         Target.OnUndoComplate += targetUnDo;
         GridController.OnTargetSet += addTarget;
+        GridController.OncurrentMoveChange += UpdateMovTxt;
 
     }
     private void OnDisable()
@@ -29,16 +31,16 @@ public class GameManager : MonoBehaviour
         Target.Oncomplate -= targetComplate;
         Target.OnUndoComplate -= targetUnDo;
         GridController.OnTargetSet -= addTarget;
+        GridController.OncurrentMoveChange -= UpdateMovTxt;
     }
     void Start()
     {
         lvlName.text = SceneManager.GetActiveScene().name;
     }
 
-    // Update is called once per frame
-    void Update()
+    void UpdateMovTxt(int move)
     {
-        
+        MoveCount.text = "Move: " + move;
     }
     void addTarget()
     {

@@ -9,6 +9,7 @@ public class GridController : MonoBehaviour
 
     //events
     public static event Action OnTargetSet;
+    public static event Action<int> OncurrentMoveChange;
     public static event Action<Vector2> OnUndoMove;
 
     //grids
@@ -34,6 +35,7 @@ public class GridController : MonoBehaviour
     [SerializeField] private GameObject lastBox = null;
 
     [SerializeField] private List<GameObject> targets = new List<GameObject>();
+
     void Awake()
     {
 
@@ -126,6 +128,7 @@ public class GridController : MonoBehaviour
     public void Move(Vector2 Direction)
     {
         currentMove++;
+        OncurrentMoveChange?.Invoke(currentMove);
         moves.Add(new GridObject(Direction,lastBox));
         //Debug.Log(moves[currentMove-1]?.direction);
     }
@@ -133,6 +136,7 @@ public class GridController : MonoBehaviour
     {
         if (moves.Count == 0) return;
         currentMove--;
+        OncurrentMoveChange?.Invoke(currentMove);
         GridObject turn = moves[currentMove];
         Vector2 direction = moves[currentMove].direction * -1;
         GameObject box = moves[currentMove].box;

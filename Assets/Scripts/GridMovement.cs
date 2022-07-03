@@ -6,16 +6,38 @@ using UnityEngine;
 public class GridMovement : MonoBehaviour
 {
 
-
+    [SerializeField] private Animator anim;
+    private int verticalAnim, horizontalAnim;
     public int id;
     public int canMoveId;
     private GridController gridController;
     private bool undo;
+    private Vector3 destination;
+    [SerializeField] private float interpolationSpeed;
     void Start()
     {
+        destination = transform.position;
         gridController = FindObjectOfType<GridController>();
+        if (anim != null)
+        {
+            verticalAnim = Animator.StringToHash("Vertical");
+            horizontalAnim = Animator.StringToHash("Horizontal");
+        }
         
     }
+    private void Update()
+    {
+        transform.position = Vector3.Lerp(transform.position, destination, interpolationSpeed * Time.deltaTime);
+        bool animationfinish = false;
+
+        if (Vector3.SqrMagnitude(transform.position - destination) <= 0.02)
+        {
+            transform.position = destination;
+            if (anim != null) AnimationFinish();
+        }
+    }
+
+
     public void Move(Vector2 direction)
     {
         bool canMove = false;
@@ -25,14 +47,22 @@ public class GridMovement : MonoBehaviour
         canMove = gridController.checkDirection(transform.position, direction, canMoveId, id);
         if (canMove)
         {
-            transform.position += (Vector3)direction;
+            if(anim!=null)ActiveAnim(direction);
+            destination = transform.position + (Vector3)direction;
             gridController.grid.GetXY(transform.position, out int x, out int y);
-            if (id == 0 && !undo) {gridController.Move(direction); }
+            if (id == 0 && !undo) { gridController.Move(direction); }
             undo = false;
             //Debug.Log("("+x+","+y+") " + gameObject);
         }
 
     }
+
+    private void ActiveAnim(Vector2 direction)
+    {
+        anim.SetFloat(verticalAnim, direction.y);
+        anim.SetFloat(horizontalAnim, direction.x);
+    }
+
     private void OnEnable()
     {
         
@@ -43,5 +73,10 @@ public class GridMovement : MonoBehaviour
     {
         if (id == 0) GridController.OnUndoMove -= Move;
         //if (id == 0) GridController.OnUndoMove -= (direction) => undo = true;
+    }
+    public void AnimationFinish()
+    {
+        anim?.SetFloat(verticalAnim, 0);
+        anim?.SetFloat(horizontalAnim, 0);
     }
 }
