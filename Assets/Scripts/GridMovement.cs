@@ -14,8 +14,10 @@ public class GridMovement : MonoBehaviour
     [SerializeField]private bool undo;
     private Vector3 destination;
     [SerializeField] private float interpolationSpeed;
+    private bool CanMove = true;
     void Start()
     {
+        CanMove = true;
         destination = transform.position;
         gridController = FindObjectOfType<GridController>();
         if (anim != null)
@@ -34,6 +36,7 @@ public class GridMovement : MonoBehaviour
         {
             transform.position = destination;
             if (anim != null) AnimationFinish();
+            CanMove = true;
         }
     }
 
@@ -41,7 +44,7 @@ public class GridMovement : MonoBehaviour
     public void Move(Vector2 direction)
     {
         bool canMove = false;
-        if (direction.sqrMagnitude == 0) return ;
+        if (direction.sqrMagnitude == 0 || !CanMove) return ;
         //Debug.Log(direction + " " + gameObject.name);
         
         canMove = gridController.checkDirection(transform.position, direction, canMoveId, id);
@@ -49,11 +52,11 @@ public class GridMovement : MonoBehaviour
         {
             if(id == 3)Debug.Log(undo);
             if(anim!=null && !undo)ActiveAnim(direction);
-            if (!undo) destination = transform.position + (Vector3)direction;
-            else 
+            if (!undo) { destination = transform.position + (Vector3)direction; CanMove = false; }
+            else
             {
                 destination = transform.position + (Vector3)direction;
-                transform.position = destination; 
+                transform.position = destination;
             }
             gridController.grid.GetXY(transform.position, out int x, out int y);
             if (id == 0 && !undo) { gridController.Move(direction); }

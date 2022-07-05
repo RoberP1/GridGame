@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Text MoveCount;
     
     public UnityEvent OnFinish;
+    public static event Action OnFinished;
 
     public static event Action OnUndo;
     // Start is called before the first frame update
@@ -64,11 +65,16 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Finish");
         OnFinish?.Invoke();
+        OnFinished?.Invoke();
 
     }
     public void Reset()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void NextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
     }
     public void Undo()
     {
