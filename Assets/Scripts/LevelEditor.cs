@@ -98,6 +98,11 @@ public class LevelEditor : MonoBehaviour
         int.TryParse(NumbersInput.ReadValue<float>().ToString(), out numberInput) ;
         Debug.Log(numberInput);
     }
+    public void NumberPress(int number)
+    {
+        numberInput = number;
+        Debug.Log(numberInput);
+    }
     IEnumerator FindPlayer()
     {
         yield return new WaitForSeconds(0.01f);
