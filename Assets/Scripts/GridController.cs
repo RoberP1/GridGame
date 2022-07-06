@@ -217,7 +217,7 @@ public class GridController : MonoBehaviour
 
         box.GetComponent<GridMovement>().Move(Direction);//mueve la caja
         Debug.Log((grid.GetValue(WorldPos + (Vector3)Direction)) + " " + CanMoveId);
-        if (grid.GetValue(WorldPos + (Vector3)Direction) == CanMoveId || (grid.GetValue(WorldPos + (Vector3)Direction) == 5))//si la caja sigue ahi entonces no pudo moverse 
+        if (grid.GetValue(WorldPos + (Vector3)Direction) == CanMoveId || (grid.GetValue(WorldPos + (Vector3)Direction) == 5))//si la caja sigue ahi (o esta en un target)entonces no pudo moverse 
         {
             canMove = false;
         }
