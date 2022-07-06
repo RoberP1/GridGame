@@ -50,7 +50,7 @@ public class GridMovement : MonoBehaviour
         canMove = gridController.checkDirection(transform.position, direction, canMoveId, id);
         if (canMove)
         {
-            if(id == 3)Debug.Log(undo);
+           // if(id == 3)Debug.Log(undo);
             if(anim!=null && !undo)ActiveAnim(direction);
             if (!undo) { destination = transform.position + (Vector3)direction; CanMove = false; }
             else

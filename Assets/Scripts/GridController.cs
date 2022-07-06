@@ -162,6 +162,7 @@ public class GridController : MonoBehaviour
         else if (CanMoveId != 0 && neighbourId == 5)
         {
             //empujar caja
+            Debug.Log("TargetComplate");
             canMove = MoveBox(WorldPos, Direction, CanMoveId);
         }
         if (canMove && CanMoveId == 0) //si puedo mover la caja
@@ -215,7 +216,8 @@ public class GridController : MonoBehaviour
         GameObject box = gameObjectsGrid.GetValue(WorldPos + (Vector3)Direction);
 
         box.GetComponent<GridMovement>().Move(Direction);//mueve la caja
-        if (grid.GetValue(WorldPos + (Vector3)Direction) == CanMoveId)//si la caja sigue ahi entonces no pudo moverse 
+        Debug.Log((grid.GetValue(WorldPos + (Vector3)Direction)) + " " + CanMoveId);
+        if (grid.GetValue(WorldPos + (Vector3)Direction) == CanMoveId || (grid.GetValue(WorldPos + (Vector3)Direction) == 5))//si la caja sigue ahi entonces no pudo moverse 
         {
             canMove = false;
         }
